@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+/CMakeFiles
+/Debug
+/lua_sandbox.dir
+/x64
+*.vcxproj
+*.vcxproj.filters
+*.sln
+*.cmake
+CMakeCache.txt

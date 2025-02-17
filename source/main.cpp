@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
   lua_setglobal(L, "msg");
   luaL_openlibs(L);
   
-  if( luaL_loadfilex(L, "scripts/hello.lua", nullptr) || lua_pcallk(L, 0, LUA_MULTRET, 0, 0, NULL) )
+  if( luaL_loadfilex(L, "scripts/hello.lua", nullptr) || lua_pcallk(L, 1, LUA_MULTRET, 0, 0, 0) )
   {
       std::cout << "Error: " << lua_tostring(L, -1) << "\n";
   }

@@ -1,5 +1,3 @@
-// #include "pch.h"
-#include <iostream>
 #include <lua.hpp>
 
 int main(int argc, char* argv[])

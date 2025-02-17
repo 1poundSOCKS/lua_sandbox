@@ -35,6 +35,7 @@
 /Debug
 /lua_sandbox.dir
 /lua_lib.dir
+/lua_app.dir
 /x64
 *.vcxproj
 *.vcxproj.filters

@@ -25,7 +25,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   target_link_options(lua_sandbox PRIVATE /SUBSYSTEM:CONSOLE)
 endif()
 
-target_precompile_headers(lua_sandbox PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/source/pch.h)
+target_precompile_headers(lua_sandbox PRIVATE <iostream>)
 
 add_compile_definitions(lua_sandbox LUA_BUILD_AS_DLL)
 add_compile_definitions(lua_lib LUA_BUILD_AS_DLL LUA_LIB)

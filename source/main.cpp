@@ -12,8 +12,9 @@ int main(int argc, char* argv[])
   lua_setglobal(L, "msg");
   luaL_openlibs(L);
   
-  if(luaL_dofile(L, "scripts/hello.lua")) {
-      std::cout << "Final:" << lua_tostring(L, -1) << "\n";
+  if( luaL_loadfilex(L, "scripts/hello.lua", nullptr) || lua_pcallk(L, 0, LUA_MULTRET, 0, 0, NULL) )
+  {
+      std::cout << "Error: " << lua_tostring(L, -1) << "\n";
   }
   
   lua_close(L);

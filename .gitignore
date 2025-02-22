@@ -34,6 +34,7 @@
 # cmake generated
 **/CMakeFiles
 **/Debug
+**/bin
 **/lua_sandbox.dir
 **/lua_lib.dir
 **/x64

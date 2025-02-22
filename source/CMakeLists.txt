@@ -1,3 +1,0 @@
-set(FILES
-  main.cpp
-)

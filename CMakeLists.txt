@@ -8,12 +8,9 @@ add_subdirectory(source/3rd_party/lua)
 
 set(CMAKE_CXX_STANDARD 20)
 
-include(source/CMakeLists.txt)
-foreach(FILE ${FILES})
-  set(source ${source} source/${FILE})
-endforeach()
+set(source source/main.cpp)
 
-add_executable(lua_sandbox ${source} ${lua_source})
+add_executable(lua_sandbox ${source})
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   target_compile_options(lua_sandbox PRIVATE /MP /MTd /Zi /W0 /WX /fp:fast)

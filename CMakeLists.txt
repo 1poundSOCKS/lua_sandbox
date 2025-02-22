@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 
 project(lua_sandbox_project)
 
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(source/3rd_party/lua)
@@ -26,4 +27,4 @@ target_include_directories(lua_sandbox PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/source/3rd_party/lua/include
 )
 
-target_link_libraries(lua_sandbox ${CMAKE_CURRENT_SOURCE_DIR}/source/3rd_party/lua/Debug/lua_lib.lib)
+target_link_libraries(lua_sandbox ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/Debug/lua_lib.lib)

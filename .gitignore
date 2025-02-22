@@ -31,14 +31,15 @@
 *.out
 *.app
 
-/CMakeFiles
-/Debug
-/lua_sandbox.dir
-/lua_lib.dir
-/lua_app.dir
-/x64
+# cmake generated
+**/CMakeFiles
+**/Debug
+**/lua_sandbox.dir
+**/lua_lib.dir
+**/x64
 *.vcxproj
 *.vcxproj.filters
 *.sln
 *.cmake
+*.pdb
 CMakeCache.txt

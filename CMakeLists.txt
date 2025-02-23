@@ -30,4 +30,4 @@ target_include_directories(lua_sandbox PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/source/3rd_party/lua/include
 )
 
-target_link_libraries(lua_sandbox ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/$(Configuration)/lua_lib.lib)
+target_link_libraries(lua_sandbox ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/$<CONFIG>/lua_lib.lib)

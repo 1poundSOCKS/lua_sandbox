@@ -39,6 +39,4 @@ add_library(lua_lib SHARED ${source})
 
 add_compile_definitions(lua_lib LUA_BUILD_AS_DLL LUA_LIB)
 
-target_include_directories(lua_lib PRIVATE
-  ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
+target_include_directories(lua_lib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)

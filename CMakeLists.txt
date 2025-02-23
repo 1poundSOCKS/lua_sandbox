@@ -9,7 +9,10 @@ add_subdirectory(source/3rd_party/lua)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(source source/main.cpp)
+set(source
+  source/main.cpp
+  source/ns_lua.cpp
+)
 
 add_executable(lua_sandbox ${source})
 

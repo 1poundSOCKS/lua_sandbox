@@ -1,23 +1,23 @@
-#include <lua.hpp>
+#include "ns_lua.h"
 
 int main(int argc, char* argv[])
 {
   argc;
   argv;
 
-  lua_State* L;
-  L = luaL_newstate();
+  lua::state luaState;
+  luaState.create();
   
-  lua_pushstring(L, "Hello, world!");
-  lua_setglobal(L, "msg");
-  luaL_openlibs(L);
+  lua_pushstring(luaState, "Hello, world!");
+  lua_setglobal(luaState, "msg");
+  luaL_openlibs(luaState);
   
-  if( luaL_loadfilex(L, "scripts/hello.lua", nullptr) || lua_pcallk(L, 0, LUA_MULTRET, 0, 0, 0) )
+  if( luaL_loadfilex(luaState, "scripts/hello.lua", nullptr) || lua_pcallk(luaState, 0, LUA_MULTRET, 0, 0, 0) )
   {
-      std::cout << "Error: " << lua_tostring(L, -1) << "\n";
+      std::cout << "Error: " << lua_tostring(luaState, -1) << "\n";
   }
   
-  lua_close(L);
+  luaState.close();
 
   return 0;
 }

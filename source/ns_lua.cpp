@@ -16,6 +16,7 @@ void lua::state::close()
   if( m_state )
   {
     lua_close(m_state);
+    m_state = nullptr;
   }
 }
 

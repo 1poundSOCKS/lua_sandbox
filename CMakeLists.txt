@@ -21,7 +21,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   target_link_options(lua_sandbox PRIVATE /SUBSYSTEM:CONSOLE)
 endif()
 
-target_precompile_headers(lua_sandbox PRIVATE <iostream>)
+target_precompile_headers(lua_sandbox PRIVATE <iostream> <format>)
 
 add_compile_definitions(lua_sandbox LUA_BUILD_AS_DLL)
 

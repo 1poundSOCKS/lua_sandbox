@@ -1,3 +1,5 @@
 print(msg)
 registerCallback("Hello, from lua!")
 registerCallback("Hello again, from lua!")
+loadRequest("request.xml")
+callServer("http://www.google.com")

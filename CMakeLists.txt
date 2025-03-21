@@ -26,6 +26,7 @@ target_precompile_headers(lua_sandbox PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/source
 add_compile_definitions(lua_sandbox LUA_BUILD_AS_DLL)
 
 target_include_directories(lua_sandbox PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/curl/include
   ${CMAKE_CURRENT_SOURCE_DIR}/source
   ${CMAKE_CURRENT_SOURCE_DIR}/source/3rd_party/lua/include
 )

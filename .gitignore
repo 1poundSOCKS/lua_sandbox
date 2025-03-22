@@ -7,7 +7,7 @@
 *.o
 *.obj
 *.dll
-*.exe
+*.exp
 
 # Precompiled Headers
 *.gch
@@ -34,8 +34,10 @@
 *.app
 
 # cmake generated
-**/CMakeFiles
-bin/Debug
+CMakeFiles
+bin
+lib
+build
 **/lua_sandbox.dir
 **/lua_lib.dir
 **/x64
@@ -45,4 +47,3 @@ bin/Debug
 *.cmake
 *.pdb
 CMakeCache.txt
-build

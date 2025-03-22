@@ -1,5 +1,5 @@
 print(msg)
-registerCallback("Hello, from lua!")
-registerCallback("Hello again, from lua!")
+setServerURL("http://www.google.com")
 loadRequest("request.xml")
-callServer("http://www.google.com")
+setResponseFile("response.txt")
+callServer()

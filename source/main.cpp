@@ -7,13 +7,8 @@ std::string g_serverURL;
 
 struct binary_data
 {
-  ~binary_data()
-  {
-    delete [] data;
-  }
-
   static constexpr size_t initialSize = 4096;
-  char* data = new char[initialSize];
+  std::unique_ptr<char[]> data = std::make_unique<char[]>(initialSize);
   size_t allocatedBytes = initialSize;
   size_t usedBytes = 0;
 };
@@ -22,7 +17,7 @@ size_t append(binary_data& binaryData, char* data, size_t size)
 {
   size_t remainingBytes = binaryData.allocatedBytes - binaryData.usedBytes;
   size_t bytesToCopy = std::min(size, remainingBytes);
-  ::memcpy(binaryData.data + binaryData.usedBytes, data, bytesToCopy);
+  ::memcpy(binaryData.data.get() + binaryData.usedBytes, data, bytesToCopy);
   binaryData.usedBytes += bytesToCopy;
   return bytesToCopy;
 }
@@ -54,8 +49,8 @@ static int saveResponse(lua_State* L)
 {
   const char* filename = luaL_checkstring(L, 1);
 
-  std::fstream file(filename, std::ios::out  | std::ios::binary | std::ios::app);
-  file.write(g_responseData.data, g_responseData.usedBytes);
+  std::fstream file(filename, std::ios::out  | std::ios::binary);
+  file.write(g_responseData.data.get(), g_responseData.usedBytes);
   file.close();
 
   std::cout << std::format("response file saved to '{}'\n", filename);

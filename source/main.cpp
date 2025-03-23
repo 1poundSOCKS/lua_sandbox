@@ -4,11 +4,35 @@
 CURL *curl;
 
 std::string g_serverURL;
-std::string g_responseFilename;
+
+struct binary_data
+{
+  ~binary_data()
+  {
+    delete [] data;
+  }
+
+  static constexpr size_t initialSize = 4096;
+  char* data = new char[initialSize];
+  size_t allocatedBytes = initialSize;
+  size_t usedBytes = 0;
+};
+
+size_t append(binary_data& binaryData, char* data, size_t size)
+{
+  size_t remainingBytes = binaryData.allocatedBytes - binaryData.usedBytes;
+  size_t bytesToCopy = std::min(size, remainingBytes);
+  ::memcpy(binaryData.data + binaryData.usedBytes, data, bytesToCopy);
+  binaryData.usedBytes += bytesToCopy;
+  return bytesToCopy;
+}
+
+binary_data g_responseData;
 
 size_t write_callback(char *ptr, size_t size, size_t nmemb, void *userdata)
 {
   std::cout << std::format("data size '{}'\n", size * nmemb);
+  append(g_responseData, ptr, size * nmemb);
   return size * nmemb;
 }
 
@@ -26,11 +50,15 @@ static int loadRequest(lua_State* L)
     return 0;
 }
 
-static int setResponseFile(lua_State* L)
+static int saveResponse(lua_State* L)
 {
   const char* filename = luaL_checkstring(L, 1);
-  g_responseFilename = filename;
-  std::cout << std::format("response file set to '{}'\n", filename);
+
+  std::fstream file(filename, std::ios::out  | std::ios::binary | std::ios::app);
+  file.write(g_responseData.data, g_responseData.usedBytes);
+  file.close();
+
+  std::cout << std::format("response file saved to '{}'\n", filename);
   return 0;
 }
 
@@ -85,7 +113,7 @@ int main(int argc, char* argv[])
   
   lua_register(luaState, "setServerURL", setServerURL);
   lua_register(luaState, "loadRequest", loadRequest);
-  lua_register(luaState, "setResponseFile", setResponseFile);
+  lua_register(luaState, "saveResponse", saveResponse);
   lua_register(luaState, "callServer", callServer);
 
   if( luaL_loadfilex(luaState, "scripts/hello.lua", nullptr) || lua_pcallk(luaState, 0, LUA_MULTRET, 0, 0, 0) )

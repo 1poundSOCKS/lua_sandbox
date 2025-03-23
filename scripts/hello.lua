@@ -1,5 +1,5 @@
 print(msg)
 setServerURL("http://www.google.com")
 loadRequest("request.xml")
-setResponseFile("response.txt")
 callServer()
+saveResponse("response.txt")

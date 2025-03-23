@@ -22,6 +22,36 @@ size_t append(binary_data& binaryData, char* data, size_t size)
   return bytesToCopy;
 }
 
+struct binary_data_set
+{
+  static constexpr size_t initialSize = 16;
+  std::vector<binary_data> dataSet;
+  size_t currentDataItem = 0;
+
+  binary_data_set()
+  {
+    dataSet.resize(initialSize);
+  }
+};
+
+size_t append(binary_data_set& binaryDataSet, char* data, size_t size)
+{
+  size_t bytesAppended = append(binaryDataSet.dataSet[binaryDataSet.currentDataItem], data, size);
+  binaryDataSet.currentDataItem += ( bytesAppended == 0 ) ? 1 : 0;
+  data += bytesAppended;
+  size -= bytesAppended;
+
+  while( size )
+  {
+    bytesAppended = append(binaryDataSet.dataSet[binaryDataSet.currentDataItem], data, size);
+    binaryDataSet.currentDataItem += ( bytesAppended == 0 ) ? 1 : 0;
+    data += bytesAppended;
+    size -= bytesAppended;
+  }
+
+  return 0;
+}
+
 binary_data g_responseData;
 
 size_t write_callback(char *ptr, size_t size, size_t nmemb, void *userdata)

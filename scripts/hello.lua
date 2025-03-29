@@ -1,4 +1,4 @@
-print(host_name)
+print("script host=" .. host_name)
 setServerURL("http://www.google.com")
 loadRequest("request.xml")
 callServer()

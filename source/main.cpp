@@ -1,51 +1,25 @@
+#include "pch.h"
 #include "ns_lua.h"
 #include "curl/curl.h"
+#include "binary_data.h"
 
 CURL *curl;
 
 std::string g_serverURL;
 
-struct binary_data
-{
-  char* data { nullptr };
-  size_t size { 0 };
-};
-
-struct binary_data_owner
-{
-  static constexpr size_t size = 0x100000;
-  std::unique_ptr<char[]> data = std::make_unique<char[]>(size);
-};
-
-struct binary_data_writer
-{
-  char* data { nullptr };
-  size_t size { 0 };
-  size_t position { 0 };
-};
-
-size_t append(binary_data_writer& dest, const binary_data& source)
-{
-  size_t remainingBytes = dest.size - dest.position;
-  size_t bytesToAppend = std::min(source.size, remainingBytes);
-  ::memcpy(dest.data, source.data, bytesToAppend);
-  dest.position += bytesToAppend;
-  return bytesToAppend;
-}
+binary_data_owner g_responseData;
+binary_data_writer g_responseWriter { g_responseData.size, g_responseData.data.get(), 0 };
 
 void write(std::fstream& outputFile, const binary_data& data)
 {
   outputFile.write(data.data, data.size);
 }
 
-binary_data_owner g_responseData;
-binary_data_writer g_responseWriter { g_responseData.data.get(), g_responseData.size, 0 };
-
 size_t write_callback(char *ptr, size_t size, size_t nmemb, void *userdata)
 {
   size_t dataSize = size * nmemb;
   std::cout << std::format("data size '{}'\n", dataSize);
-  append(g_responseWriter, binary_data { ptr, dataSize });
+  append(g_responseWriter, binary_data { dataSize, ptr });
   return dataSize;
 }
 
@@ -68,7 +42,7 @@ static int saveResponse(lua_State* L)
   const char* filename = luaL_checkstring(L, 1);
 
   std::fstream file(filename, std::ios::out  | std::ios::binary);
-  write(file, binary_data { g_responseData.data.get(), g_responseData.size });
+  write(file, binary_data { g_responseWriter.position , g_responseData.data.get() });
   file.close();
 
   std::cout << std::format("response file saved to '{}'\n", filename);

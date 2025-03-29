@@ -7,58 +7,46 @@ std::string g_serverURL;
 
 struct binary_data
 {
-  static constexpr size_t initialSize = 4096;
-  std::unique_ptr<char[]> data = std::make_unique<char[]>(initialSize);
-  size_t allocatedBytes = initialSize;
-  size_t usedBytes = 0;
+  char* data { nullptr };
+  size_t size { 0 };
 };
 
-size_t append(binary_data& binaryData, char* data, size_t size)
+struct binary_data_owner
 {
-  size_t remainingBytes = binaryData.allocatedBytes - binaryData.usedBytes;
-  size_t bytesToCopy = std::min(size, remainingBytes);
-  ::memcpy(binaryData.data.get() + binaryData.usedBytes, data, bytesToCopy);
-  binaryData.usedBytes += bytesToCopy;
-  return bytesToCopy;
-}
-
-struct binary_data_set
-{
-  static constexpr size_t initialSize = 16;
-  std::vector<binary_data> dataSet;
-  size_t currentDataItem = 0;
-
-  binary_data_set()
-  {
-    dataSet.resize(initialSize);
-  }
+  static constexpr size_t size = 0x100000;
+  std::unique_ptr<char[]> data = std::make_unique<char[]>(size);
 };
 
-size_t append(binary_data_set& binaryDataSet, char* data, size_t size)
+struct binary_data_writer
 {
-  size_t bytesAppended = append(binaryDataSet.dataSet[binaryDataSet.currentDataItem], data, size);
-  binaryDataSet.currentDataItem += ( bytesAppended == 0 ) ? 1 : 0;
-  data += bytesAppended;
-  size -= bytesAppended;
+  char* data { nullptr };
+  size_t size { 0 };
+  size_t position { 0 };
+};
 
-  while( size )
-  {
-    bytesAppended = append(binaryDataSet.dataSet[binaryDataSet.currentDataItem], data, size);
-    binaryDataSet.currentDataItem += ( bytesAppended == 0 ) ? 1 : 0;
-    data += bytesAppended;
-    size -= bytesAppended;
-  }
-
-  return 0;
+size_t append(binary_data_writer& dest, const binary_data& source)
+{
+  size_t remainingBytes = dest.size - dest.position;
+  size_t bytesToAppend = std::min(source.size, remainingBytes);
+  ::memcpy(dest.data, source.data, bytesToAppend);
+  dest.position += bytesToAppend;
+  return bytesToAppend;
 }
 
-binary_data g_responseData;
+void write(std::fstream& outputFile, const binary_data& data)
+{
+  outputFile.write(data.data, data.size);
+}
+
+binary_data_owner g_responseData;
+binary_data_writer g_responseWriter { g_responseData.data.get(), g_responseData.size, 0 };
 
 size_t write_callback(char *ptr, size_t size, size_t nmemb, void *userdata)
 {
-  std::cout << std::format("data size '{}'\n", size * nmemb);
-  append(g_responseData, ptr, size * nmemb);
-  return size * nmemb;
+  size_t dataSize = size * nmemb;
+  std::cout << std::format("data size '{}'\n", dataSize);
+  append(g_responseWriter, binary_data { ptr, dataSize });
+  return dataSize;
 }
 
 static int setServerURL(lua_State* L)
@@ -80,7 +68,7 @@ static int saveResponse(lua_State* L)
   const char* filename = luaL_checkstring(L, 1);
 
   std::fstream file(filename, std::ios::out  | std::ios::binary);
-  file.write(g_responseData.data.get(), g_responseData.usedBytes);
+  write(file, binary_data { g_responseData.data.get(), g_responseData.size });
   file.close();
 
   std::cout << std::format("response file saved to '{}'\n", filename);

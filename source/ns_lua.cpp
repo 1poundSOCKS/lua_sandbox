@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "ns_lua.h"
 
 lua::state::~state()

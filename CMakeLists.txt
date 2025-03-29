@@ -21,11 +21,12 @@ add_executable(lua_sandbox ${source})
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   target_compile_options(lua_sandbox PRIVATE /MP /MTd /Zi /W0 /WX /fp:fast /std:c++latest /EHsc)
   target_link_options(lua_sandbox PRIVATE /SUBSYSTEM:CONSOLE)
+  add_compile_definitions(lua_sandbox LUA_BUILD_AS_DLL)
+else()
+  add_compile_definitions(lua_sandbox LUA_USE_LINUX)
 endif()
 
 target_precompile_headers(lua_sandbox PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/source/pch.h)
-
-add_compile_definitions(lua_sandbox LUA_BUILD_AS_DLL)
 
 target_include_directories(lua_sandbox PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/source

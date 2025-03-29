@@ -1,5 +1,5 @@
 print("script host=" .. host_name)
-setServerURL("http://www.google.com")
+setServerURL("https://httpbin.org/post")
 loadRequest("request.xml")
 callServer()
 saveResponse("response.txt")

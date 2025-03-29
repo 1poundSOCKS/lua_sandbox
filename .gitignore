@@ -47,3 +47,6 @@ build
 *.cmake
 *.pdb
 CMakeCache.txt
+
+# data
+response.txt

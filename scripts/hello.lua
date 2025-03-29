@@ -1,4 +1,4 @@
-print(msg)
+print(host_name)
 setServerURL("http://www.google.com")
 loadRequest("request.xml")
 callServer()

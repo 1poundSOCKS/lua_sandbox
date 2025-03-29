@@ -5,6 +5,8 @@ project(lua_sandbox_project)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+set(LUA_INCLUDE ENV{LUA_INCLUDE})
+set(LUA_LIB ENV{LUA_LIB})
 set(CURL_HOME ENV{CURL_HOME})
 
 add_subdirectory(source/3rd_party/lua)
@@ -29,8 +31,8 @@ add_compile_definitions(lua_sandbox LUA_BUILD_AS_DLL)
 
 target_include_directories(lua_sandbox PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/source
-  ${CMAKE_CURRENT_SOURCE_DIR}/source/3rd_party/lua/include
+  ${LUA_INCLUDE}
   ${CURL_HOME}/include
 )
 
-target_link_libraries(lua_sandbox ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/$<CONFIG>/lua_lib.lib)
+target_link_libraries(lua_sandbox C:/Users/mathe/source/repos/vcpkg/packages/lua_x64-windows/lib/lua.lib)

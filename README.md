@@ -11,4 +11,5 @@ vcpkg install curl[tool]
 
 # setup env vars
 
-CURL_HOME=C:\Users\mathe\source\repos\vcpkg\packages\curl_x64-windows
+e.g. for Windows 64 bit
+CURL_HOME=<vcpkg_location>\vcpkg\packages\curl_x64-windows

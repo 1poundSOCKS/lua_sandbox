@@ -70,6 +70,9 @@ static int callServer(lua_State* L)
 {
   std::cout << std::format("sending request to '{}'\n", g_serverURL.c_str());
 
+  g_requestWriter.data[g_requestWriter.position] = '\0';
+  const char* requestString = static_cast<const char*>(g_requestWriter.data);
+
   struct curl_slist *header = NULL;
   header = curl_slist_append(header, "Content-type: text/xml; charset=utf-8");
   header = curl_slist_append(header, "SOAPAction: http://localhost:62634/Service1.svc");
@@ -78,7 +81,7 @@ static int callServer(lua_State* L)
 
   curl_easy_setopt(curl, CURLOPT_URL, g_serverURL.c_str());
   curl_easy_setopt(curl, CURLOPT_POST, 1);
-  curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "<?xml version=\"1.0\" encoding=\"UTF-8\"?><soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:AddNumbers=\"http://localhost:62634/Service1.svc\"><soapenv:Header/><soapenv:Body><AddNumbers xmlns=\"http://tempuri.org/\"><number1>4</number1><number2>5</number2></AddNumbers></soapenv:Body></soapenv:Envelope>");
+  curl_easy_setopt(curl, CURLOPT_POSTFIELDS, requestString);
   curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
   curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
   curl_easy_setopt(curl, CURLOPT_HTTPHEADER, header);

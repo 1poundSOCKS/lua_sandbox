@@ -5,6 +5,8 @@ project(lua_sandbox_project)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+set(CURL_HOME ENV{CURL_HOME})
+
 add_subdirectory(source/3rd_party/lua)
 
 set(CMAKE_CXX_STANDARD 23)
@@ -26,9 +28,9 @@ target_precompile_headers(lua_sandbox PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/source
 add_compile_definitions(lua_sandbox LUA_BUILD_AS_DLL)
 
 target_include_directories(lua_sandbox PRIVATE
-  ${CMAKE_CURRENT_SOURCE_DIR}/3rd_party/curl/include
   ${CMAKE_CURRENT_SOURCE_DIR}/source
   ${CMAKE_CURRENT_SOURCE_DIR}/source/3rd_party/lua/include
+  ${CURL_HOME}/include
 )
 
 target_link_libraries(lua_sandbox ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/$<CONFIG>/lua_lib.lib)

@@ -6,6 +6,9 @@ cd vcpkg
 ./bootstrap-vcpkg.sh
 ./vcpkg integrate install
 
+# install lua
+vcpkg install lua
+
 # install curl & libcurl
 vcpkg install curl[tool]
 

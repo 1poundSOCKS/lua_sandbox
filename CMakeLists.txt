@@ -16,13 +16,6 @@ set(source
   source/ns_lua.cpp
 )
 
-if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-  set(lua_sandbox_resources
-    C:/Users/mathe/source/repos/vcpkg/packages/lua_x64-windows/bin/lua.dll
-    C:/Users/mathe/source/repos/vcpkg/packages/curl_x64-windows/bin/libcurl.dll
-  )
-endif()
-
 add_executable(lua_sandbox 
   ${source}
   $ENV{BINARY-RESOURCES}

@@ -25,16 +25,12 @@ endif()
 
 add_executable(lua_sandbox 
   ${source}
-  ${lua_sandbox_resources}
+  $ENV{lua_sandbox_resources}
 )
 
-if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-  add_compile_definitions(lua_sandbox $ENV{COMPILE-DEFINITIONS})
-  target_compile_options(lua_sandbox PRIVATE $ENV{COMPILE-OPTIONS})
-  target_link_options(lua_sandbox PRIVATE $ENV{LINK-OPTIONS})
-else()
-  add_compile_definitions(lua_sandbox LUA_USE_LINUX)
-endif()
+add_compile_definitions(lua_sandbox $ENV{COMPILE-DEFINITIONS})
+target_compile_options(lua_sandbox PRIVATE $ENV{COMPILE-OPTIONS})
+target_link_options(lua_sandbox PRIVATE $ENV{LINK-OPTIONS})
 
 target_precompile_headers(lua_sandbox PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/source/pch.h)
 

@@ -1,0 +1,19 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "generator": "Visual Studio 17 2022",
+      "binaryDir": "bin/Debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      },
+      "environment": {
+        "COMPILE-OPTIONS": "/MP /MTd /Zi /W0 /WX /fp:fast /std:c++latest /EHsc",
+        "COMPILE-DEFINITIONS": "LUA_BUILD_AS_DLL",
+        "LINK-OPTIONS": "/SUBSYSTEM:CONSOLE"
+      }
+    }
+  ]
+}

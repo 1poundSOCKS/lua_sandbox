@@ -3,7 +3,7 @@
   "configurePresets": [
     {
       "name": "windows",
-      "displayName": "Debug",
+      "displayName": "Windows",
       "generator": "Visual Studio 17 2022",
       "binaryDir": "bin/Debug",
       "cacheVariables": {
@@ -18,7 +18,7 @@
     },
     {
       "name": "linux",
-      "displayName": "Debug",
+      "displayName": "Linux",
       "generator": "Unix Makefiles",
       "binaryDir": "bin/Debug",
       "cacheVariables": {

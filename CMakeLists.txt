@@ -25,7 +25,7 @@ endif()
 
 add_executable(lua_sandbox 
   ${source}
-  $ENV{lua_sandbox_resources}
+  $ENV{BINARY-RESOURCES}
 )
 
 add_compile_definitions(lua_sandbox $ENV{COMPILE-DEFINITIONS})

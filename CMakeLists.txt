@@ -16,11 +16,13 @@ set(source
   source/ns_lua.cpp
 )
 
-add_executable(lua_sandbox ${source})
+add_executable(lua_sandbox 
+  ${source}
+  C:/Users/mathe/source/repos/vcpkg/packages/lua_x64-windows/bin/lua.dll
+  C:/Users/mathe/source/repos/vcpkg/packages/curl_x64-windows/bin/libcurl.dll
+)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-  file(COPY C:/Users/mathe/source/repos/vcpkg/packages/lua_x64-windows/bin/lua.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-  file(COPY C:/Users/mathe/source/repos/vcpkg/packages/curl_x64-windows/bin/libcurl.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
   add_compile_definitions(lua_sandbox LUA_BUILD_AS_DLL)
   target_compile_options(lua_sandbox PRIVATE /MP /MTd /Zi /W0 /WX /fp:fast /std:c++latest /EHsc)
   target_link_options(lua_sandbox PRIVATE /SUBSYSTEM:CONSOLE)

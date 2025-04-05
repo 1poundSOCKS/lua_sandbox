@@ -27,3 +27,18 @@ inline size_t append(binary_data_writer& dest, const binary_data& source)
   dest.position += bytesToAppend;
   return bytesToAppend;
 }
+
+inline size_t read(binary_data_writer& dataWriter, std::fstream& outputFile)
+{
+  size_t maxBytesRead = dataWriter.size - dataWriter.position;
+  outputFile.read(dataWriter.data, maxBytesRead);
+  size_t bytesRead = outputFile ? maxBytesRead : outputFile.gcount();
+  dataWriter.position += bytesRead;
+  return bytesRead;
+}
+
+inline size_t write(std::fstream& outputFile, const binary_data& data)
+{
+  outputFile.write(data.data, data.size);
+  return data.size;
+}

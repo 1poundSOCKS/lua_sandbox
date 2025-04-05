@@ -13,21 +13,6 @@ binary_data_owner g_responseData;
 binary_data_writer g_requestWriter { g_requestData.size, g_requestData.data.get(), 0 };
 binary_data_writer g_responseWriter { g_responseData.size, g_responseData.data.get(), 0 };
 
-void read(binary_data_writer& dataWriter, std::fstream& outputFile)
-{
-  size_t maxBytesRead = dataWriter.size - dataWriter.position;
-  outputFile.read(dataWriter.data, maxBytesRead);
-  size_t bytesRead = outputFile ? maxBytesRead : outputFile.gcount();
-  dataWriter.position += bytesRead;
-  std::cout << std::format("{} bytes read from file\n", bytesRead);
-}
-
-void write(std::fstream& outputFile, const binary_data& data)
-{
-  outputFile.write(data.data, data.size);
-  std::cout << std::format("{} bytes written to file\n", data.size);
-}
-
 size_t write_callback(char *ptr, size_t size, size_t nmemb, void *userdata)
 {
   size_t dataSize = size * nmemb;
@@ -50,7 +35,8 @@ static int loadRequest(lua_State* L)
 
     std::fstream file(filename, std::ios::in  | std::ios::binary);
     g_requestWriter.position = 0;
-    read(g_requestWriter, file);
+    size_t bytesRead = read(g_requestWriter, file);
+    std::cout << std::format("{} bytes read from file\n", bytesRead);
     return 0;
 }
 
@@ -60,7 +46,8 @@ static int saveResponse(lua_State* L)
   std::cout << std::format("saving response data to '{}'\n", filename);
 
   std::fstream file(filename, std::ios::out  | std::ios::binary);
-  write(file, binary_data { g_responseWriter.position , g_responseData.data.get() });
+  size_t bytesWritten = write(file, binary_data { g_responseWriter.position , g_responseData.data.get() });
+  std::cout << std::format("{} bytes written to file\n", bytesWritten);
   file.close();
 
   return 0;

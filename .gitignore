@@ -50,3 +50,6 @@ CMakeCache.txt
 
 # data
 response.txt
+
+# cmake
+CMakeUserPresets.json

@@ -8,6 +8,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(LUA_INCLUDE $ENV{LUA_INCLUDE})
 set(LUA_LIB $ENV{LUA_LIB})
 set(CURL_INCLUDE $ENV{CURL_INCLUDE})
+set(BINARY_RESOURCES $ENV{BINARY-RESOURCES})
 
 set(CMAKE_CXX_STANDARD 23)
 
@@ -18,7 +19,7 @@ set(source
 
 add_executable(lua_sandbox 
   ${source}
-  $ENV{BINARY-RESOURCES}
+  ${BINARY_RESOURCES}
 )
 
 add_compile_definitions(lua_sandbox $ENV{COMPILE-DEFINITIONS})

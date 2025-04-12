@@ -13,7 +13,7 @@
         "COMPILE-OPTIONS": "/MP /MTd /Zi /W0 /WX /fp:fast /std:c++latest /EHsc",
         "COMPILE-DEFINITIONS": "LUA_BUILD_AS_DLL",
         "LINK-OPTIONS": "/SUBSYSTEM:CONSOLE",
-        "BINARY-RESOURCES": "C:/Users/mathe/source/repos/vcpkg/packages/lua_x64-windows/bin/lua.dll;C:/Users/mathe/source/repos/vcpkg/packages/curl_x64-windows/bin/libcurl.dll"
+        "BINARY-RESOURCES": "$ENV{LUA_BIN}/lua.dll;$ENV{CURL_BIN}/libcurl.dll"
       }
     },
     {
